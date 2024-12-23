@@ -1,0 +1,80 @@
+$primary: #3491d0;
+$primary_hover: #256895;
+$danger: #d04e47;
+$background: #e8e8e8;
+$border: #b7b7b7;
+$page_container_x: 768px;
+$border_radius: 5px;
+$input_field_x: 300px;
+$navbar_y: min(10vh, 6rem);
+$light_hover: #ececec;
+$button_hover: #e8e8e8;
+$button_y: 39px;
+$button_padding_y: 6px;
+$focused_outline: #408fe3;
+
+@font-face {
+	font-family: 'Nunito';
+	src: url('/fonts/Nunito-Medium.ttf') format('truetype');
+}
+
+* {
+	font-family: 'Nunito', sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-size: 16px;
+}
+
+a {
+	color: $primary;
+}
+
+.h1 {
+	font-size: 2rem;
+	background-color: transparent;
+}
+
+.h2 {
+	font-size: 1.5rem;
+	background-color: transparent;
+}
+
+.p {
+	background-color: transparent;
+}
+
+.btn {
+	background-color: white;
+	padding: $button_padding_y 10px;
+	text-align: center;
+	height: $button_y;
+	cursor: pointer;
+	border: 1px solid black;
+	border-radius: $border_radius;
+	font-weight: 600;
+	box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover {
+	background-color: $button_hover;
+}
+
+.btn-primary {
+	background-color: #2b9d41;
+	border-color: #079522;
+	color: white;
+}
+
+.btn-primary:hover {
+	background-color: #26963b;
+}
+
+.btn-danger {
+	color: $danger;
+}
+
+.btn-danger:hover {
+	background-color: $danger;
+	border-color: $danger;
+	color: white;
+}
