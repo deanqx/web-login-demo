@@ -5,14 +5,14 @@
 <script lang="ts">
 	let {
 		gclass = '',
-		name = '',
+		value = $bindable(''),
 		label,
 		placeholder = '',
 		type = 'text',
 		readonly = false
 	}: {
 		gclass?: string;
-		name?: string;
+		value?: string;
 		label: string;
 		placeholder?: string;
 		type?: string;
@@ -24,12 +24,12 @@
 
 <dl class="form-group {gclass}">
 	<dt class="input_label">
-		<label for={id}>
+		<label for={`input_label_${id}`}>
 			{label}
 		</label>
 	</dt>
 	<dd>
-		<input {id} {name} class="input_field" {placeholder} {type} {readonly} />
+		<input {id} class="input_field" {value} {placeholder} {type} {readonly} />
 	</dd>
 </dl>
 

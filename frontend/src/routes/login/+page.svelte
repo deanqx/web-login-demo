@@ -2,6 +2,39 @@
 	import InputField from '$lib/InputField.svelte';
 
 	let remember = $state(false);
+
+	let username = $state('');
+	let password = $state('');
+	let response_message = $state('');
+
+	async function handle_submit(event: Event) {
+		event.preventDefault(); // Prevent form from refreshing the page
+		response_message = '';
+
+		try {
+			const response = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ username, password })
+			});
+
+			const result = await response.json();
+
+			if (response.ok) {
+				response_message = `Success: ${result.message || 'Login successful!'}`;
+			} else {
+				response_message = `Error: ${result.message || 'Login failed!'}`;
+			}
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				response_message = `Error: ${error.message}`;
+			} else {
+				throw error;
+			}
+		}
+	}
 </script>
 
 <div class="login_centered_container">
@@ -9,9 +42,9 @@
 		<div class="login_header">
 			<h1 class="h1">Login</h1>
 		</div>
-		<form method="POST" action="/api/login">
-			<InputField name="username" label="Nutzername" />
-			<InputField name="password" label="Passwort" type="password" />
+		<form onsubmit={handle_submit}>
+			<InputField bind:value={username} label="Nutzername" />
+			<InputField bind:value={password} label="Passwort" type="password" />
 			<div class="remember">
 				<label class="select-none">
 					<input type="checkbox" bind:checked={remember} />
@@ -22,6 +55,7 @@
 		</form>
 		<div class="forgot">
 			<a href="/">Passwort vergessen?</a>
+			<p>{response_message}</p>
 		</div>
 	</div>
 </div>
