@@ -1,0 +1,30 @@
+networks:
+  db_network:
+    driver: bridge
+  api_network:
+    driver: bridge
+
+volumes:
+  db_data:
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: Uy8qzwwb32WduUMYKLyeUxunEqhrT3TcNJ4Q
+      POSTGRES_DB: dev
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  web:
+    build: frontend
+    restart: always
+    ports:
+      - "44144:80"
+    depends_on:
+      - db
+    networks:
+      - api_network

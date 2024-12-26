@@ -21,7 +21,7 @@
 			<button class="btn btn-primary w-full" type="submit">Einloggen</button>
 		</form>
 		<div class="forgot">
-			<a href="/forgot-password">Passwort vergessen?</a>
+			<a href="/">Passwort vergessen?</a>
 		</div>
 	</div>
 </div>
