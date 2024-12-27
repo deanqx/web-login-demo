@@ -20,6 +20,10 @@ config :backend, BackendWeb.Endpoint,
   secret_key_base: "tZWNXDVv2ygB49DqcALNnc98SfH0zm9huZtCjdyetiHEw8EM50rrpkbl/HGUa7pR",
   server: false
 
+config :argon2_elixir,
+  t_cost: 1,
+  m_cost: 8
+
 # In test we don't send emails
 config :backend, Backend.Mailer, adapter: Swoosh.Adapters.Test
 

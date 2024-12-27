@@ -16,3 +16,23 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+# Developing
+
+## Database
+
+### CLI
+
+Password is found at `../docker-compose.yml`
+
+```
+psql -h localhost -p 5432 -U default -d dev
+```
+
+### Migrations
+
+Inside `psql` execute:
+
+```
+dev=# \i ./priv/repo_migrations/v0.1.0.sql 
+```
