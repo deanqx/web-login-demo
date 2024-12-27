@@ -24,7 +24,12 @@ config :backend, BackendWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "3w7ynRf0z6fB/+y2B+qst19VBIy6EqKsFkYKcbRTatqrvOgDr6QiE9bwM2+pZk8i",
-  watchers: []
+  watchers: [],
+  live_reload: [
+    patterns: [
+      ~r"lib/backend/controllers/.*(ex)$"
+    ]
+  ]
 
 # ## SSL Support
 #
