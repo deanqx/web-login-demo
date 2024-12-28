@@ -19,7 +19,7 @@
                 body: JSON.stringify({ username, password })
             })
 
-            const result = await response.json()
+            const response_body = await response.json()
 
             if (response.ok) {
                 response_message = ''
@@ -31,7 +31,7 @@
 
                 document.cookie =
                     'session_key=' +
-                    result.session_key +
+                    response_body.session_key +
                     '; expires=' +
                     expires_date.toUTCString() +
                     '; path=/; SameSite=Strict'
@@ -39,10 +39,10 @@
                 return
             }
 
-            response_message = result.message
+            response_message = response_body.message
         } catch (error: unknown) {
             if (error instanceof Error) {
-                response_message = `Verbingdung zum Server fehlgeschlagen: ${error.message}`
+                response_message = `Verbindung zum Server fehlgeschlagen: ${error.message}`
             } else {
                 throw error
             }
