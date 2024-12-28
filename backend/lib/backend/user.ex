@@ -10,10 +10,9 @@ defmodule Backend.User do
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
-  def changeset(user, attrs) do
+  def changeset(user, params \\ %{}) do
     user
-    |> cast(attrs, [:username, :password_hash, :password_salt])
-    |> validate_required([:username, :password_hash, :password_salt])
+    |> cast(params, [:username, :password_hash])
+    |> validate_required([:username, :password_hash])
   end
 end

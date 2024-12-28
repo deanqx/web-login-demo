@@ -1,0 +1,16 @@
+FROM debian:latest AS build
+
+WORKDIR /build
+
+COPY mix.exs .
+COPY mix.lock .
+RUN mix deps.get --only prod
+
+COPY . .
+
+Not ready yet
+RUN mix release 
+
+FROM elixir:1.18-alpine
+
+CMD [ "executable" ]

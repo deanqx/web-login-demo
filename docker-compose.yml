@@ -15,16 +15,31 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: default
-      POSTGRES_PASSWORD: Uy8qzwwb32WduUMYKLyeUxunEqhrT3TcNJ4Q
+      POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: dev
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - db_network
+  api:
+    build:
+      context: backend
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "44145:4000"
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    networks:
+      - db_network
   web:
     build: frontend
     restart: always
     ports:
       - "44144:80"
     depends_on:
-      - db
+      - api
     networks:
       - api_network
