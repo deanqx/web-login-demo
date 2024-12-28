@@ -14,26 +14,26 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: default
-      POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: dev
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
       - db_network
   api:
-    build:
-      context: backend
-      dockerfile: Dockerfile.dev
+    build: backend
     restart: always
     ports:
       - "4000:4000"
     depends_on:
       - db
-    volumes:
-      - ./backend:/app
+    environment:
+      - DATABASE_URL=ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
     networks:
       - db_network
+      - api_network
   web:
     build: frontend
     restart: always

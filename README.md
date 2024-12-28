@@ -19,3 +19,8 @@ The website contains
 - Kubernetes
 
 # Deploying
+
+```bash
+docker compose build
+docker compose up -d
+```

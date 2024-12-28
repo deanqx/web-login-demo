@@ -1,5 +1,9 @@
 import Config
 
+config :backend, BackendWeb.Endpoint,
+  http: [ip: {0, 0, 0, 0}, port: 4000],
+  server: true
+
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: Backend.Finch
 

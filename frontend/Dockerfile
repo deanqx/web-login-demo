@@ -10,6 +10,7 @@ COPY . .
 
 RUN npm run build
 
-# TODO redirect of /api
-FROM nginx:alpine
+FROM nginx:1.27-alpine
+
 COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf

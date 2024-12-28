@@ -1,10 +1,10 @@
 # Developing
 
-## Launching Backend
+## Starting Backend
 
 ```bash
-docker compose build db api
-docker compose up -d db api
+docker compose build api
+docker compose up -d api
 ```
 
 ## Starting Web server

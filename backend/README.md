@@ -3,22 +3,18 @@
 Docker Compose is only used for developing.
 Phoenix will automatically recompile changed files.
 
-## Launching Phoenix API server
-
-### Native
+## Starting Phoenix API server
 
 ```bash
 docker compose up -d db
 mix phx.server
 ```
 
-### with Docker
-
-NOT WORKING FOR NOW
+## Test with Docker Container
 
 ```bash
-docker compose build
-docker compose up -d
+docker compose build api
+docker compose up -d api
 ```
 
 ## Database
@@ -40,3 +36,5 @@ dev=# \i ./priv/repo_migrations/v0.1.0.sql
 ```
 
 # Deploying
+
+https://hexdocs.pm/phoenix/releases.html
