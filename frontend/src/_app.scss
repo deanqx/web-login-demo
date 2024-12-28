@@ -78,3 +78,36 @@ a {
 	border-color: $danger;
 	color: white;
 }
+
+.page-content {
+    width: 100%;
+    max-width: $page_container_x;
+    margin: 1rem 1rem;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    margin-top: $navbar_y;
+    min-height: calc(100vh - $navbar_y);
+}
+
+.section-container {
+    box-shadow:
+        0 1.6px 4px 1px rgba(0, 0, 0, 0.132),
+        0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 16px 12px;
+    margin-bottom: 34px;
+}
+
+@media (min-width: 768px) {
+    .split-view {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .split-view div {
+        flex-grow: 1;
+    }
+}
