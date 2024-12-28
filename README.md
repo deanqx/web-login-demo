@@ -1,7 +1,7 @@
 A demo project about Zero Downtime Deployment.
 
-## Stack
-### Frontend
+# Stack
+## Frontend
 - Sveltekit
 - Scss
 - Bootstrap
@@ -11,9 +11,11 @@ The website contains
 - an admin interface to create new users and edit old ones
 - an editable user profile with profile picture upload
 
-### Backend
+## Backend
 - Pheonix (Elixir)
 - Postgres
 - NixOS
 - Docker
 - Kubernetes
+
+# Deploying

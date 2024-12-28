@@ -1,11 +1,21 @@
 # Developing
 
-Docker Compose is only used for developing. Phoenix can be run with Docker or with `mix phx.server`.
+Docker Compose is only used for developing.
 Phoenix will automatically recompile changed files.
 
+## Launch Phoenix API server
+
+### Native
+
+```bash
+mix phx.server
 ```
-sudo docker compose build
-sudo docker compose up -d
+
+### with Docker
+
+```bash
+docker compose build
+docker compose up -d
 ```
 
 ## Database
@@ -14,7 +24,7 @@ sudo docker compose up -d
 
 Password is found at `../docker-compose.yml`
 
-```
+```bash
 psql -h localhost -p 5432 -U default -d dev
 ```
 
