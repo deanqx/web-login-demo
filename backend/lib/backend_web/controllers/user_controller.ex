@@ -6,7 +6,7 @@ defmodule BackendWeb.UserController do
   use BackendWeb, :controller
 
   # Format: Dean Schneider -> dschneider2
-  defp generate_username(full_name) do
+  defp generate_username(uid, full_name) do
     [first_name | rest_of_name] = String.split(full_name)
 
     generated_username_base =
@@ -16,33 +16,15 @@ defmodule BackendWeb.UserController do
         String.downcase(first_name)
       end
 
-    last_occurrence =
-      Repo.one(
-        from u in User,
-          select: u.username,
-          where: like(u.username, ^(generated_username_base <> "%")),
-          order_by: [desc: u.username],
-          limit: 1
-      )
-
-    if last_occurrence do
-      IO.puts(last_occurrence)
-
-      suffix =
-        last_occurrence
-        |> String.slice(String.length(generated_username_base)..-1//1)
-
-      suffix_incremented =
-        if suffix == "" do
-          1
-        else
-          String.to_integer(suffix, 10) + 1
-        end
-
-      IO.puts(suffix)
-
-      generated_username_base <> Integer.to_string(suffix_incremented)
+    if Repo.exists?(
+         from u in User,
+           select: u.username,
+           where: u.username == ^generated_username_base
+       ) do
+      IO.puts("here")
+      generated_username_base <> Integer.to_string(uid)
     else
+      IO.puts(generated_username_base)
       generated_username_base
     end
   end
@@ -61,11 +43,14 @@ defmodule BackendWeb.UserController do
   end
 
   def create(conn, %{"full_name" => full_name}) do
-    generated_username = generate_username(full_name)
     generated_password = generate_password()
     password_hash = Argon2.hash_pwd_salt(generated_password)
 
-    Repo.insert(%User{username: generated_username, password_hash: password_hash})
+    {:ok, created_user} = Repo.insert(%User{password_hash: password_hash})
+
+    generated_username = generate_username(created_user.id, full_name)
+
+    Repo.update(Ecto.Changeset.change(created_user, %{username: generated_username}))
 
     conn
     |> put_status(:created)

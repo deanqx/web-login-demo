@@ -5,7 +5,6 @@ defmodule Backend.User do
   schema "users" do
     field :username, :string
     field :password_hash, :string
-    field :password_salt, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -13,6 +12,6 @@ defmodule Backend.User do
   def changeset(user, params \\ %{}) do
     user
     |> cast(params, [:username, :password_hash])
-    |> validate_required([:username, :password_hash])
+    |> validate_required([:password_hash])
   end
 end
