@@ -2,9 +2,9 @@ import Config
 
 config :backend, Backend.Repo,
   username: "default",
-  password: "",
+  password: "abc",
   hostname: "localhost",
-  database: "dev",
+  database: "web_login_demo_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

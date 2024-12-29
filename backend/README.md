@@ -24,7 +24,7 @@ docker compose up -d api
 Password is found at `../docker-compose.yml`
 
 ```bash
-psql -h localhost -p 5432 -U default -d dev
+psql -h localhost -U default -d web_login_demo_dev
 ```
 
 ### Migrations

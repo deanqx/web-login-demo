@@ -5,25 +5,45 @@ defmodule BackendWeb.UserController do
   alias Backend.User
   use BackendWeb, :controller
 
-  defp generate_username(generated_username_base, iteration) do
-    if iteration > 999 do
-      raise "Can't find a free username for " <> generated_username_base
-    end
+  # Format: Dean Schneider -> dschneider2
+  defp generate_username(full_name) do
+    [first_name | rest_of_name] = String.split(full_name)
 
-    possible_username =
-      if iteration == 0 do
-        generated_username_base
+    generated_username_base =
+      if length(rest_of_name) > 0 do
+        String.downcase(String.at(first_name, 0)) <> String.downcase(List.last(rest_of_name))
       else
-        generated_username_base <> Integer.to_string(iteration)
+        String.downcase(first_name)
       end
 
-    if Repo.exists?(
-         from u in User,
-           where: u.username == ^possible_username
-       ) do
-      generate_username(generated_username_base, iteration + 1)
+    last_occurrence =
+      Repo.one(
+        from u in User,
+          select: u.username,
+          where: like(u.username, ^(generated_username_base <> "%")),
+          order_by: [desc: u.username],
+          limit: 1
+      )
+
+    if last_occurrence do
+      IO.puts(last_occurrence)
+
+      suffix =
+        last_occurrence
+        |> String.slice(String.length(generated_username_base)..-1//1)
+
+      suffix_incremented =
+        if suffix == "" do
+          1
+        else
+          String.to_integer(suffix, 10) + 1
+        end
+
+      IO.puts(suffix)
+
+      generated_username_base <> Integer.to_string(suffix_incremented)
     else
-      possible_username
+      generated_username_base
     end
   end
 
@@ -41,17 +61,7 @@ defmodule BackendWeb.UserController do
   end
 
   def create(conn, %{"full_name" => full_name}) do
-    [first_name | rest_of_name] = String.split(full_name)
-
-    generated_username_base =
-      if length(rest_of_name) > 1 do
-        String.at(first_name, 0) <> List.last(rest_of_name)
-      else
-        first_name
-      end
-
-    generated_username = generate_username(generated_username_base, 0)
-
+    generated_username = generate_username(full_name)
     generated_password = generate_password()
     password_hash = Argon2.hash_pwd_salt(generated_password)
 
