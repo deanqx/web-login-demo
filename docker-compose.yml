@@ -10,7 +10,7 @@ volumes:
 services:
   db:
     image: postgres:alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
@@ -23,7 +23,7 @@ services:
       - db_network
   api:
     build: backend
-    restart: always
+    restart: unless-stopped
     ports:
       - "4000:4000"
     depends_on:
@@ -39,7 +39,7 @@ services:
       - api_network
   web:
     build: frontend
-    restart: always
+    restart: unless-stopped
     ports:
       - "44144:80"
     depends_on:

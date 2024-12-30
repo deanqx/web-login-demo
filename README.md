@@ -90,6 +90,8 @@ cd .certs
 ### Certificate Authority (Public)
 ### Registry Certificate (Private)
 
+mTLS
+
 `ca_cert.pem`: Public
 
 ```bash

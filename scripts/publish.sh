@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Enable the "exit on error" behavior
 set -e
 
 if [ $# -lt 1 ]; then

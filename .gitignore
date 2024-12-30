@@ -1,7 +1,3 @@
 .session.vim
 *.tar
-dean
-
-certs/*
-!certs/gen_certs.sh
-!certs/create_node_cert.sh
+.certs
