@@ -15,10 +15,10 @@ spec:
         app: web
     spec:
       containers:
-      - name: web
-        image: 
-        ports:
-        - containerPort: 44144
+        - name: web
+          image: registry.internal/web-login-demo_web:v1.0
+          ports:
+            - containerPort: 44144
 ---
 apiVersion: v1
 kind: Service
@@ -27,8 +27,9 @@ metadata:
 spec:
   selector:
     app: web
+  type: NodePort
   ports:
     - protocol: TCP
       port: 44144
       targetPort: 44144
-      portNode: 30000
+      nodePort: 30000

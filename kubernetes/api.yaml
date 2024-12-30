@@ -15,15 +15,15 @@ spec:
         app: api
     spec:
       containers:
-      - name: api
-        image: 
-        ports:
-        - containerPort: 4000
-        envFrom:
-          configMapRef:
-            name: env-config
-          secretKeyRef:
-            name: env-secret
+        - name: api
+          image: registry.internal/web-login-demo_api:v1.0
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - configMapRef:
+                name: config
+            - secretRef:
+                name: secret
 ---
 apiVersion: v1
 kind: Service

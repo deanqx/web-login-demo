@@ -3,51 +3,45 @@
 # Enable the "exit on error" behavior
 set -e
 
-user=dean
-
-if [ $# -lt 2 ]; then
-    echo "Please provide the Host addresses of the Nodes as arguments."
+if [ $# -lt 1 ]; then
+    echo "Please provide the Host address of the Control Plane Node as argument."
     echo "You need a ~/.ssh/config to configure ports."
-    echo "./publish.sh [New Version] [api | web | both] [...IPs]"
-    echo "Example: ./publish.sh v1.0 both 10.10.15.13 10.10.15.14"
+    echo "./publish.sh [New Version] [Optional: api | web]"
+    echo "Example: ./publish.sh 1.0 192.110.10.24 api"
     exit 1
 fi
 
 project=$(basename $(pwd))
 version=$1
-target=$2
+target=both
 
-# Shift two times to start loop at second argument
-shift 2
-
-echo "Project: $project"
-echo "Version: $version"
-echo "Target:  $target"
-
-if [ $target == "api" ] || [ $target == "both" ]; then
-    sudo docker build -t ${project}_api:${version} ./backend
-    sudo docker save -o ${project}_api-${version}.tar ${project}_api:${version}
-    sudo chown $(whoami):$(id -g) ${project}_api-${version}.tar
+if [ $# -ge 2 ]; then
+    target=$2
 fi
 
-if [ $target == "web" ] || [ $target == "both" ]; then
-    sudo docker build -t ${project}_web:${version} ./frontend
-    sudo docker save -o ${project}_web-${version}.tar ${project}_web:${version}
-    sudo chown $(whoami):$(id -g) ${project}_web-${version}.tar
+echo "Project:     $project"
+echo "Version:     $version"
+echo "Target:      $target"
+echo "Registry IP: $(getent hosts registry.internal)"
+
+function upload {
+    target_resolved=$1
+    target_folder=$2
+
+    image_name=registry.internal:5000/${project}_${target_resolved}:${version}
+    tar_name=${project}_${target_resolved}-${version}.tar
+
+    echo "----------------- Building ${target_resolved} -----------------"
+
+    sudo docker build -t $image_name $target_folder
+    sudo docker push $image_name
+}
+
+if [ $target == "api" ]; then
+    upload api ./backend
+elif [ $target == "web" ]; then
+    upload web ./frontend
+elif [ $target == "both" ]; then
+    upload api ./backend
+    upload web ./frontend
 fi
-
-for host in "$@"; do
-    echo "[$ip] Uploading Docker Images"
-
-    if [ $target == "api" ] || [ $target == "both" ]; then
-        scp ${project}-api-${version}.tar $host:/images
-        ssh $host docker load -i /images/${project}-api-${version}.tar
-    fi
-
-    if [ $target == "web" ] || [ $target == "both" ]; then
-        scp ${project}-web-${version}.tar $host:/images
-        ssh $host docker load -i /images/${project}-web-${version}.tar
-    fi
-
-    echo "[$ip] Done"
-done
