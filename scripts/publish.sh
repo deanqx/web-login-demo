@@ -1,11 +1,11 @@
 #!/bin/bash
-set -e
+set -eu
 
 if [ $# -lt 1 ]; then
     echo "Please provide the Host address of the Control Plane Node as argument."
-    echo "You need a ~/.ssh/config to configure ports."
-    echo "./publish.sh [New Version] [Optional: api | web]"
-    echo "Example: ./publish.sh 1.0 192.110.10.24 api"
+    echo "You need a ~/.ssh/config to configure the ."
+    echo "Usage:   ./publish.sh [New Version] [Optional: api | web]"
+    echo "Example: ./publish.sh 1.0 api"
     exit 1
 fi
 

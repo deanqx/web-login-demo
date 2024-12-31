@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 if [ $# -lt 1 ]; then
     echo "Usage:   ./create_certs.sh [Output directory]"
@@ -29,5 +29,7 @@ openssl req -x509 -in ${1}/node.csr -CA ${1}/ca.crt -CAkey ${1}/ca.key \
 
 rm ${1}/registry.csr
 rm ${1}/node.csr
+
+tar -czf ${1}/node_certs.tar.gz ${1}/ca.crt ${1}/node.cert ${1}/node.key
 
 echo "Successful"

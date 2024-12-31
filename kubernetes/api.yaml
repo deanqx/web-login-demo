@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
         - name: api
-          image: registry.internal/web-login-demo_api:v1.0
+          image: registry.internal:5000/web-login-demo_api:1.0
           ports:
             - containerPort: 4000
           envFrom:
             - configMapRef:
-                name: config
+                name: web-login-demo-config
             - secretRef:
-                name: secret
+                name: web-login-demo-secret
 ---
 apiVersion: v1
 kind: Service

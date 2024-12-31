@@ -1,13 +1,5 @@
 import Config
 
-config :backend, Backend.Repo,
-  username: System.get_env("POSTGRES_USER"),
-  password: System.get_env("POSTGRES_PASSWORD"),
-  database: System.get_env("POSTGRES_DB"),
-  hostname: System.get_env("POSTGRES_HOST"),
-  port: 5432,
-  pool_size: 10
-
 config :backend, BackendWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000],
   server: true

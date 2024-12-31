@@ -3,6 +3,4 @@ kind: ConfigMap
 metadata:
   name: web-login-demo-config
 data:
-  POSTGRES_USER: default
-  POSTGRES_DB: web_login_demo_dev
-  POSTGRES_HOST: 
+  API_HOST: api-service.default.svc.cluster.local

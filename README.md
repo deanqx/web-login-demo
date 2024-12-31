@@ -72,11 +72,11 @@ docker compose up -d web
 
 The current secrets are not kept in Production. The Git Repository should not contain any passwords.
 
-```bash
-openssl base64
-```
+`kubernetes/secret.yaml` after `data:`
 
-Use `Ctrl + D` to exit.
+```bash
+./setup_keys.sh
+```
 
 ```bash
 mix phx.gen.secret
@@ -98,6 +98,8 @@ sudo ./scripts/restart_registry.sh
 ```bash
 ip addr show
 ```
+
+### 2
 
 `/etc/hosts`
 
@@ -124,8 +126,11 @@ The following generates a certificate for a node. This information is private fo
 rm -r /etc/docker/certs.d/registry.internal:5000/*
 ```
 
+### 1
+
 ```bash
-cp --parents .certs/ca.crt .certs/node.cert .certs/node.key /etc/docker/certs.d/registry.internal:5000
+mkdir --parents /etc/docker/certs.d/registry.internal:5000
+cp .certs/ca.crt .certs/node.cert .certs/node.key /etc/docker/certs.d/registry.internal:5000
 ```
 
 ```bash
@@ -142,14 +147,24 @@ virtualization support (named VT-x for Intel processors and AMD-V for AMD proces
 minikube start
 ```
 
-
-Build Docker Images and push to Minikube:
-
 ```bash
-./publish.sh [Version] minikube
+minikube ssh
+sudo vi /etc/hosts
 ```
 
+[here](###2)
+
 ```bash
+scp -i ~/.minikube/machines/minikube/id_rsa .certs/node_certs.tar.gz docker@$(minikube ip):/home/docker/
+minikube ssh
+tar -xzvf node_certs.tar.gz
+```
+
+[here](###1)
+
+```bash
+kubectl apply -f kubernetes/config.yaml
+kubectl apply -f kubernetes/secret.yaml
 kubectl apply -f kubernetes/api.yaml
 kubectl apply -f kubernetes/web.yaml
 kubectl get deploy

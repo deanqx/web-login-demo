@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 echo "Create volume if not exists:"
 sudo docker volume create registry_data
