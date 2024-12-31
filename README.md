@@ -31,7 +31,7 @@ The website contains
 
 ## Backend
 
-- Nginx
+- Ingress Nginx
 - Pheonix (Elixir)
 - Postgres
 - Docker
@@ -44,6 +44,52 @@ The website contains
 Find guides in `frontend/README.md` and `backend/README.md`.
 
 # First backend setup
+
+1. Install `helm` with your package manager
+
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+```
+
+```bash
+kubectl get pods -n ingress-nginx
+```
+
+```bash
+kubectl apply -f kubernetes/load_balancer.yaml
+```
+
+To get IP on real server:
+
+```bash
+kubectl get svc -n ingress-nginx
+```
+
+Debug:
+
+```bash
+kubectl describe ingress ingress
+```
+
+```bash
+kubectl get pods -n ingress-nginx
+kubectl logs -n ingress-nginx <nginx-ingress-pod-name>
+```
+
+`/etc/hosts`
+
+```bash
+minikube service ingress-nginx-controller -n ingress-nginx
+```
+
+Use IP for http/80
+
+```
+192.x.x.x minikube.local
+```
 
 ## Generating backend keys
 
@@ -185,8 +231,7 @@ Follow the guide about [setting up a Node](##setting-up-a-node).
 On the Control Plane server execute:
 
 ```bash
-kubectl apply -f kubernetes/config.yaml kubernetes/secret.yaml kubernetes/api.yaml kubernetes/web.yaml
-kubectl get pods
+./scripts/rollout.sh kubernetes
 ```
 
 -> Further debug commands can be found online.

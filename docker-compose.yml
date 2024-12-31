@@ -41,7 +41,5 @@ services:
       - "44144:80"
     depends_on:
       - api
-    environment:
-      API_HOST: api
     networks:
       - api_network
