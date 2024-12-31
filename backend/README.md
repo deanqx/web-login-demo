@@ -34,7 +34,3 @@ Inside `psql` execute:
 ```
 dev=# \i ./priv/repo_migrations/v0.1.0.sql 
 ```
-
-# Deploying
-
-https://hexdocs.pm/phoenix/releases.html

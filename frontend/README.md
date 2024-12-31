@@ -1,5 +1,15 @@
 # Developing
 
+## Git
+
+Test Docker Compose before merging in `main`.
+
+```bash
+docker compose build
+docker compose down
+docker compose up
+```
+
 ## Starting Backend
 
 ```bash
