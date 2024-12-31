@@ -87,6 +87,24 @@ mkdir .certs
 cd .certs
 ```
 
+```bash
+docker volume create registry_data
+```
+
+```bash
+sudo ./scripts/restart_registry.sh
+```
+
+```bash
+ip addr show
+```
+
+`/etc/hosts`
+
+```
+192.x.x.x registry.internal
+```
+
 ### Certificate Authority (Public)
 ### Registry Certificate (Private)
 
@@ -103,14 +121,14 @@ mTLS
 The following generates a certificate for a node. This information is private for each node.
 
 ```bash
-./create_node_cert.sh certs dean
+rm -r /etc/docker/certs.d/registry.internal:5000/*
 ```
 
 ```bash
-mkdir /etc/docker/certs.d
-mkdir /etc/docker/certs.d/registry.internal:5000
-cp dean/* /etc/docker/certs.d/registry.internal:5000
-systemctl restart docker
+cp --parents .certs/ca.crt .certs/node.cert .certs/node.key /etc/docker/certs.d/registry.internal:5000
+```
+
+```bash
 docker login registry.internal:5000
 ```
 
@@ -122,38 +140,6 @@ virtualization support (named VT-x for Intel processors and AMD-V for AMD proces
 
 ```bash
 minikube start
-minikube ip
-```
-
-```bash
-minikube addons enable registry
-minikube start --insecure-registry "<registry-ip>:5000"
-```
-
-```bash
-docker volume create registry_data
-```
-
-```bash
-docker run -d \
-  -p 5000:5000 \
-  -v ./.certs:/certs \
-  -v registry_data:/var/lib/registry \
-  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry_cert.pem \
-  -e REGISTRY_HTTP_TLS_KEY=/certs/registry_key.pem \
-  --name registry \
-  --restart unless-stopped \
-  registry:2
-```
-
-```bash
-ip addr show
-```
-
-`/etc/hosts`
-
-```
-192.x.x.x registry.internal
 ```
 
 
