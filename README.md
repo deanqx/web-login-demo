@@ -2,7 +2,7 @@
 
 A demo project about **Zero Downtime Deployment** with **Kubernetes**.
 
-The guide generally made for Linux users.
+This guide generally made for Linux users.
 
 ### Frontend Version 1.0
 
@@ -24,10 +24,10 @@ The version only needs to be updated when the code is shipped to production.
 
 The website contains
 
-[x] a login
-[x] admins can create new users
-[ ] admins can search and edit existing ones
-[ ] an editable user profile with profile picture upload
+- [x] a login
+- [x] admins can create new users
+- [ ] admins can search and edit existing ones
+- [ ] an editable user profile with profile picture upload
 
 ## Backend
 
@@ -165,7 +165,7 @@ minikube ssh
 tar -xzvf node_certs.tar.gz
 ```
 
-Follow the steps from [Get access to the Registry](###get-access-to-the-registry).
+Follow the steps from [Get access to the Registry](#get-access-to-the-registry).
 
 # Deploying
 
@@ -201,7 +201,7 @@ docker compose up -d
 
 This script builds and pushes the desired images to the Registry.
 Don't forget to set the `registry.internal` host alias correctly,
-if you want to [test it with Minikube](##testing-with-minikube).
+if you want to [test it with Minikube](#testing-with-minikube).
 Run script to get an usage example:
 
 ```bash
@@ -219,11 +219,11 @@ minikube start
 ```
 
 The Minikube needs to be set up like a Node.
-Follow the guide about [setting up a Node](##setting-up-a-node).
+Follow the guide about [setting up a Node](#setting-up-a-node).
 
 ## Rolling out update
 
-⚠️ **Important:** Complete first step of [Database migration](##database-migration) first.
+⚠️ **Important:** Complete first step of [Database migration](#database-migration) first.
 
 On the Control Plane server execute:
 
@@ -235,7 +235,7 @@ On the Control Plane server execute:
 
 ## Database migration
 
-1. Run `backend/priv/repo_migrations/{VERSION}_pre.sql`
-2. [Roll out update](##rolling-out-update)
-3. Run `backend/priv/repo_migrations/{VERSION}_post.sql`
+1. Run `backend/priv/repo_migrations/{VERSION}_pre.sql`.
+2. [Roll out update](#rolling-out-update) with Kubernetes.
+3. Run `backend/priv/repo_migrations/{VERSION}_post.sql`.
    If this file does not exist, post migration is not needed.
