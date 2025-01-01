@@ -4,9 +4,9 @@ A demo project about **Zero Downtime Deployment** with **Kubernetes**.
 
 The guide generally made for Linux users.
 
-## Frontend Version 1.0
+### Frontend Version 1.0
 
-## Backend Version 1.0
+### Backend Version 1.0
 
 Format: [Major change].[Minor change]
 
@@ -45,13 +45,8 @@ Find guides in `frontend/README.md` and `backend/README.md`.
 
 # First backend setup
 
-1. Install `helm` with your package manager
-
 ```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-
-helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
 
 ```bash
@@ -62,16 +57,18 @@ kubectl get pods -n ingress-nginx
 kubectl apply -f kubernetes/load_balancer.yaml
 ```
 
+kubectl get ingress -n ingress-nginx --watch
+
 To get IP on real server:
 
 ```bash
-kubectl get svc -n ingress-nginx
+minikube service ingress-nginx-controller -n ingress-nginx
 ```
 
 Debug:
 
 ```bash
-kubectl describe ingress ingress
+kubectl describe ingress
 ```
 
 ```bash

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: web-login-demo
   name: api-deployment
   labels:
     app: api
@@ -20,14 +21,13 @@ spec:
           ports:
             - containerPort: 4000
           envFrom:
-            - configMapRef:
-                name: web-login-demo-config
             - secretRef:
-                name: web-login-demo-secret
+                name: env-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: web-login-demo
   name: api-service
 spec:
   selector:

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: web-login-demo
   name: web-deployment
   labels:
     app: web
@@ -19,13 +20,11 @@ spec:
           image: registry.internal:5000/web-login-demo_web:1.1
           ports:
             - containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: web-login-demo-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: web-login-demo
   name: web-service
 spec:
   selector:

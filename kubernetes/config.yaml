@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: web-login-demo-config
-data:
-  API_HOST: api-service.default.svc.cluster.local

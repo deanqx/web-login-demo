@@ -7,16 +7,17 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-kubectl apply -f ${1}/config.yaml
-kubectl apply -f ${1}/secret.yaml
+kubectl create namespace web-login-demo 2>/dev/null && true
+
 kubectl apply -f ${1}/api.yaml
+kubectl apply -f ${1}/env-secret.yaml
+kubectl apply -f ${1}/ingress.yaml
 kubectl apply -f ${1}/web.yaml
-kubectl apply -f ${1}/load_balancer.yaml
 
 echo
 
-kubectl get pods -n ingress-nginx
+kubectl get ingress -n web-login-demo
 
 echo
 
-kubectl get pods
+kubectl get all -n web-login-demo
