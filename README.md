@@ -45,49 +45,6 @@ Find guides in `frontend/README.md` and `backend/README.md`.
 
 # First backend setup
 
-```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-```
-
-```bash
-kubectl get pods -n ingress-nginx
-```
-
-```bash
-kubectl apply -f kubernetes/load_balancer.yaml
-```
-
-kubectl get ingress -n ingress-nginx --watch
-
-To get IP on real server:
-
-```bash
-minikube service ingress-nginx-controller -n ingress-nginx
-```
-
-Debug:
-
-```bash
-kubectl describe ingress
-```
-
-```bash
-kubectl get pods -n ingress-nginx
-kubectl logs -n ingress-nginx <nginx-ingress-pod-name>
-```
-
-`/etc/hosts`
-
-```bash
-minikube service ingress-nginx-controller -n ingress-nginx
-```
-
-Use IP for http/80
-
-```
-192.x.x.x minikube.local
-```
-
 ## Generating backend keys
 
 The current secrets keys and passwords are not kept in Production.
@@ -149,6 +106,26 @@ cp .certs/ca.crt .certs/node.cert .certs/node.key /etc/docker/certs.d/registry.i
 docker login registry.internal:5000
 ```
 
+## Load balancer (Ingress Nginx)
+
+The load balancer is a seperate Pod in the `ingress-nginx` namespace. To install and active it use:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+```
+
+Verify status with:
+
+```bash
+kubectl get pods -n ingress-nginx
+```
+
+### Find out where to connect
+
+```bash
+minikube service ingress-nginx-controller -n ingress-nginx
+```
+
 ## Setting up a Node
 
 The Node needs access to the Registry. Send the `.certs/node_certs.tar.gz` with SCP (SSH).
@@ -197,7 +174,7 @@ docker compose build
 docker compose up -d
 ```
 
-## Upload image to Registry
+## Upload new version to Registry
 
 This script builds and pushes the desired images to the Registry.
 Don't forget to set the `registry.internal` host alias correctly,
@@ -229,6 +206,14 @@ On the Control Plane server execute:
 
 ```bash
 ./scripts/rollout.sh kubernetes
+```
+
+## Debug Kubernetes
+
+Use `web-login-demo` as default namespace.
+
+```bash
+kubectl config set-context --current --namespace=web-login-demo
 ```
 
 -> Further debug commands can be found online.
