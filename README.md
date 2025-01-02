@@ -97,7 +97,7 @@ minikube start
 ```
 
 The Minikube needs to be set up like a Node.
-Follow the guide about [setting up a Node](backend/REAME.md).
+Follow the guide about [setting up a Node](backend/README.md).
 
 ## Rolling out update
 
