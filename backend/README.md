@@ -1,3 +1,8 @@
+# Table of contents
+
+- [First backend setup](#first-backend-setup)
+- [Setting up a node](#setting-up-a-node)
+
 # First backend setup
 
 ## Generating backend keys
@@ -75,13 +80,13 @@ Verify status with:
 kubectl get pods -n ingress-nginx
 ```
 
-### Find out where to connect
+### Find exposed port and ip
 
 ```bash
 minikube service ingress-nginx-controller -n ingress-nginx
 ```
 
-## Setting up a Node
+# Setting up a Node
 
 The Node needs access to the Registry. Send the `.certs/node_certs.tar.gz` with SCP (SSH).
 It contains all required certificates.

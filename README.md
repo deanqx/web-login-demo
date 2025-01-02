@@ -83,7 +83,7 @@ if you want to [test it with Minikube](#testing-with-minikube).
 Run script to get an usage example:
 
 ```bash
-./scripts/publish.sh
+./publish.sh
 ```
 
 ## Testing with Minikube
@@ -97,7 +97,7 @@ minikube start
 ```
 
 The Minikube needs to be set up like a Node.
-Follow the guide about [setting up a Node](#setting-up-a-node).
+Follow the guide about [setting up a Node](backend/REAME.md).
 
 ## Rolling out update
 
